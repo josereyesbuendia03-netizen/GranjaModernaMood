@@ -1,0 +1,12 @@
+
+json 
+
+{
+  "Name": "Granja Moderna Mod",
+  "Author": "TuNombre",
+  "Version": "1.0.0",
+  "Description": "Mod de automatizacion, smartphone y moto para Stardew Valley.",
+  "UniqueID": "TuNombre.GranjaModernaMod",
+  "EntryDll": "GranjaModernaLogic.dll",
+  "MinimumApiVersion": "4.0.0"
+}

@@ -1,0 +1,26 @@
+
+
+
+csharp 
+
+using System;
+using StardewModdingAPI;
+using StardewModdingAPI.Events;
+using StardewValley;
+
+namespace GranjaModernaLogic
+{
+    public class ModEntry : Mod
+    {
+        public override void Entry(IModHelper helper)
+        {
+            helper.Events.GameLoop.DayStarted += OnDayStarted;
+        }
+
+        private void OnDayStarted(object sender, DayStartedEventArgs e)
+        {
+            if (!Context.IsWorldReady) return;
+            Game1.addHUDMessage(new HUDMessage("[Stardew OS]: Sistema centralizado activo.", HUDMessage.newQuest_type));
+        }
+    }
+}
