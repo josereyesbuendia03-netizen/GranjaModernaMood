@@ -13,19 +13,22 @@ jobs:
     - name: Descargar codigo
       uses: actions/checkout@v4
 
+    - name: Listar archivos del repositorio
+      run: ls -laR
+
     - name: Configurar .NET 6
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 6.0.x
 
     - name: Restaurar dependencias
-      run: dotnet restore ./ --source "https://api.nuget.org/v3/index.json"
+      run: find . -name "*.csproj" -exec dotnet restore {} --source "https://api.nuget.org/v3/index.json" \;
 
     - name: Compilar
-      run: dotnet build ./ --configuration Release --no-restore
+      run: find . -name "*.csproj" -exec dotnet build {} --configuration Release \;
 
     - name: Subir Zip Compilado
       uses: actions/upload-artifact@v4
       with:
         name: GranjaModernaMod-Compilado
-        path: bin/Release/net6.0/
+        path: "**/bin/Release/net6.0/"
