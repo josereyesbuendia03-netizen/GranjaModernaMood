@@ -18,17 +18,22 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
+    - name: Localizar proyecto
+      run: |
+        PROJ=$(find . -maxdepth 2 -iname "*.csproj" | head -n 1)
+        echo "PROJ_PATH=$PROJ" >> $GITHUB_ENV
+        echo "Archivo detectado: $PROJ"
+
     - name: Restaurar dependencias
-      run: dotnet restore $(ls *.csproj) --source "https://api.nuget.org/v3/index.json"
+      run: dotnet restore "$PROJ_PATH" --source "https://api.nuget.org/v3/index.json"
 
     - name: Compilar
-      run: dotnet build $(ls *.csproj) --configuration Release
+      run: dotnet build "$PROJ_PATH" --configuration Release
 
     - name: Preparar carpeta de salida
       run: |
         mkdir -p ./output
-        cp bin/Release/net6.0/* ./output/ 2>/dev/null || true
-        cp manifest.json ./output/ 2>/dev/null || true
+        find . -type f \( -iname "*.dll" -o -iname "*.pdb" -o -iname "manifest.json" \) -exec cp {} ./output/ \;
 
     - name: Subir Zip Compilado
       uses: actions/upload-artifact@v4
