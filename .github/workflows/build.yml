@@ -19,10 +19,10 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Restaurar dependencias
-      run: find . -name "*.csproj" -exec dotnet restore {} --source "https://api.nuget.org/v3/index.json" \;
+      run: dotnet restore --source "https://api.nuget.org/v3/index.json" || true
 
     - name: Compilar
-      run: find . -name "*.csproj" -exec dotnet build {} --configuration Release -o ./output \;
+      run: dotnet build --configuration Release -o ./output
 
     - name: Subir Zip Compilado
       uses: actions/upload-artifact@v4
