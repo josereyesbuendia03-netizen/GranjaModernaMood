@@ -1,5 +1,4 @@
 yaml
-
 name: Compilar Mod Stardew Valley
 
 on:
@@ -20,11 +19,15 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
+    - name: Restaurar dependencias
+      run: dotnet restore
+
     - name: Compilar
-      run: dotnet build --configuration Release
+      run: dotnet build --configuration Release --no-restore
 
     - name: Subir Zip Compilado
       uses: actions/upload-artifact@v3
       with:
         name: GranjaModernaMod-Compilado
         path: bin/Release/net6.0/
+
