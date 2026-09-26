@@ -18,11 +18,13 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Restaurar dependencias
-      run: dotnet restore --source "https://api.nuget.org/v3/index.json" || true
-
-    - name: Compilar
-      run: dotnet build --configuration Release -o ./output
+    - name: Compilar y exportar
+      run: |
+        PROJ=$(find . -name "*.csproj" | head -n 1)
+        dotnet restore "$PROJ" --source "https://api.nuget.org/v3/index.json"
+        dotnet build "$PROJ" --configuration Release
+        mkdir -p ./output
+        find . -type f \( -name "*.dll" -o -name "*.pdb" -o -name "manifest.json" \) -exec cp {} ./output/ \;
 
     - name: Subir Zip Compilado
       uses: actions/upload-artifact@v4
