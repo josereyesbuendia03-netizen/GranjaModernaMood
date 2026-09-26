@@ -1,0 +1,31 @@
+name: Compilar Mod Stardew Valley
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar codigo
+      uses: actions/checkout@v3
+
+    - name: Configurar .NET 6
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restaurar dependencias
+      run: dotnet restore
+
+    - name: Compilar
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Subir Zip Compilado
+      uses: actions/upload-artifact@v3
+      with:
+        name: GranjaModernaMod-Compilado
+        path: bin/Release/net6.0/
