@@ -19,13 +19,13 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Restaurar dependencias
-      run: find . -name "*.csproj" -exec dotnet restore {} --source "https://api.nuget.org/v3/index.json" \;
+      run: dotnet restore --source "https://api.nuget.org/v3/index.json"
 
     - name: Compilar
-      run: find . -name "*.csproj" -exec dotnet build {} --configuration Release --output ./output \;
+      run: dotnet build --configuration Release -o ./publish
 
     - name: Subir Zip Compilado
       uses: actions/upload-artifact@v4
       with:
         name: GranjaModernaMod-Compilado
-        path: ./output/
+        path: ./publish/
