@@ -20,7 +20,8 @@ jobs:
 
     - name: Compilar y exportar
       run: |
-        PROJ=$(find . -name "*.csproj" | head -n 1)
+        export PROJ=$(find . -name "*.csproj" | head -n 1)
+        echo "Proyecto encontrado en: $PROJ"
         dotnet restore "$PROJ" --source "https://api.nuget.org/v3/index.json"
         dotnet build "$PROJ" --configuration Release
         mkdir -p ./output
