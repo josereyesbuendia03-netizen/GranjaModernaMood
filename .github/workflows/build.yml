@@ -18,14 +18,17 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Compilar y exportar
+    - name: Restaurar dependencias
+      run: dotnet restore GranjaModernaLogic.csproj --source "https://api.nuget.org/v3/index.json"
+
+    - name: Compilar
+      run: dotnet build GranjaModernaLogic.csproj --configuration Release
+
+    - name: Preparar carpeta de salida
       run: |
-        export PROJ=$(find . -name "*.csproj" | head -n 1)
-        echo "Proyecto encontrado en: $PROJ"
-        dotnet restore "$PROJ" --source "https://api.nuget.org/v3/index.json"
-        dotnet build "$PROJ" --configuration Release
         mkdir -p ./output
-        find . -type f \( -name "*.dll" -o -name "*.pdb" -o -name "manifest.json" \) -exec cp {} ./output/ \;
+        cp bin/Release/net6.0/* ./output/ 2>/dev/null || true
+        cp manifest.json ./output/ 2>/dev/null || true
 
     - name: Subir Zip Compilado
       uses: actions/upload-artifact@v4
