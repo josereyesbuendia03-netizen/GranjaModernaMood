@@ -19,13 +19,13 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Restaurar dependencias
-      run: dotnet restore ./ --source "https://api.nuget.org/v3/index.json"
+      run: dotnet restore GranjaModernaLogic/GranjaModernaLogic.csproj --source "https://api.nuget.org/v3/index.json"
 
     - name: Compilar
-      run: dotnet build ./ --configuration Release --no-restore
+      run: dotnet build GranjaModernaLogic/GranjaModernaLogic.csproj --configuration Release --no-restore
 
     - name: Subir Zip Compilado
       uses: actions/upload-artifact@v4
       with:
         name: GranjaModernaMod-Compilado
-        path: bin/Release/net6.0/
+        path: GranjaModernaLogic/bin/Release/net6.0/
